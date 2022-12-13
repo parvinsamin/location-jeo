@@ -1,0 +1,59 @@
+<div class="location-form-main">
+    <header class="location-form-header">Share Location</header>
+    <form class="location-form">
+
+        <div class="form-group-container first__row">
+            <div class="form-group">
+                <label for="name" class="input-text">Location Name : </label>
+                <input type="text" id="name" placeholder="Name" />
+            </div>
+            <span class="form-message">This is a required field.</span>
+        </div>
+        <div class="form-group-container">
+            <div class="form-group">
+                <label for="stacked-state">Location Type : </label>
+                <select id="stacked-state">
+                    <option>AL</option>
+                    <option>CA</option>
+                    <option>IL</option>
+                </select>
+            </div>
+            <span class="form-message">This is a required field.</span>
+        </div>
+        <div class="form-group-container">
+            <div class="form-group">
+                <label>Location on map :
+                </label>
+            </div>
+
+        </div>
+        <div class="map-container" leaflet
+            [leafletOptions]="options"
+            (leafletMapReady)="onMapReady($event)"
+            (leafletMapZoomEnd)="onMapZoomEnd($event)"></div>
+
+        <div class="form-group-container">
+            <div class="form-group">
+                <label>Upload Logo :
+                </label>
+                <div class="image-upload-wrapper">
+                    <div class="image-upload-wrap">
+                        <img [src]="url" *ngIf="url" class="image">
+                        <input class="file-upload-input" #imgPicker
+                            type="file"
+                            (change)="selectFile($event)">
+                    </div>
+                    <button class="file-upload-btn" type="button"
+                        (click)="imgPicker.click()">Click Here</button>
+                </div>
+            </div>
+        </div>
+        <div class="form-group-container button_space">
+
+            <span> </span>
+            <button>Submit</button>
+            <span> </span>
+
+        </div>
+    </form>
+</div>

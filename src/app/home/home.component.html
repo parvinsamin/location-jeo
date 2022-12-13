@@ -1,0 +1,222 @@
+
+<div *ngIf="direction == 'rtl'" dir="rtl" #scroll class="home-body">
+    <mat-drawer-container class="hug-container" hasBackdrop="true"
+        class="rtl-class">
+        <mat-drawer #sidenav class="hugnet-sidenav" position="start"
+            opened="false" mode="over">
+            <div class="sidenav-container" fxLayout="column"
+                fxLayoutAlign="flex-start">
+                <div class="sidenav-header">
+                    <div class="top-sidenav-header">
+                        <div class="logo" routerLink="/admin" #myElem>
+                            <img style="margin: 5px; width: 70px"  src="../../../../../../assets/images/logo1.png" alt="LOGO" />
+                        </div>
+                        <div (click)="sidenav.close()" class="btn-close">
+                            <img class="material-icons-outlined"   src="../../../../../../assets/images/icons8-close.svg">
+                        </div>
+                    </div>
+                    <div class="user-info" fxLayout="row" fxLayoutAlign="start
+                        center">
+                        <div>
+ 
+                                <ul class="primary">
+                                    <li >
+                                       <a   (click)="ScrollIntoView('#myElement1')">   {{"landing.Home"|translate}} </a>
+                            
+                                    </li> 
+                                    <li>
+                                        <a (click)="ScrollIntoView('#myElement2')">   {{"landing.Broadcasters"|translate}} </a>                                
+                                    </li>
+                                    <li>
+                                        <a (click)="ScrollIntoView('#myElement3')" i18n="@@weblog">{{"landing.Listeners"|translate}} </a>
+                            
+                                    </li>
+                                    <li>
+                                        <a (click)="ScrollIntoView('#myElement6')" i18n="@@questions">{{"landing.Pricing"|translate}}  </a>
+                            
+                                    </li>
+                                    <li>
+                                        <a (click)="ScrollIntoView('#myElement5')">     {{"landing.About"|translate}} </a>
+                            
+                                    </li>
+                                    <li>
+                                        <a (click)="ScrollIntoView('#myElement7')">     {{"landing.Contact us"|translate}} </a>
+                            
+                                    </li>
+                                </ul> 
+                             
+                        </div>
+                    </div>
+                </div>
+                <mat-nav-list>
+                    <app-menu-list-item *ngFor="let item of menuItems |
+                        userRole: 'superadmin'" [item]="item"
+                        (closeMenu)="closeSideBar($event)">
+                    </app-menu-list-item>
+
+                </mat-nav-list>
+                <div class="exit-btn" *ngIf="userData">
+                    <button class="hug-btn hug-btn-menu slide">
+                        <img [src]="userData?.image">
+                        <span> {{userData?.fullname}}</span>
+
+                    </button>
+                    <button class="btn-orange hug-btn" mat-button
+                        (click)="logout()">
+                        <span class="icon-off hug-icon"><span class="path1"></span>
+                            <span class="path2"></span></span>
+                        <span class="add-hug">{{ "landing.Exit account" |
+                            translate }}</span>
+                    </button>
+                </div>
+            </div>
+        </mat-drawer>
+        <mat-drawer-content>
+            <header class="header">
+                <div class="container">
+                    <div class="header-wrapper">
+                        <div class="d-flex align-items-center header-menu">
+                            <div class="hamburger" (click)="sidenav.open()"
+                                [class.is-active]="false">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                            <a href="#" class="logo">
+                                <img src="../../../../assets/images/logo.png">
+                            </a>
+                        </div>
+                        <center-nav></center-nav>
+                        <div class="d-flex align-items-center header-tools">
+                            <!-- <div>   
+                                <mat-select #matSelect [value]="selectedCountry.id">
+                                    <mat-select-trigger> 
+                                        <img with="20px" height="20px" [src]="selectedCountry.flag_url">
+                                    </mat-select-trigger>
+                                    <mat-option *ngFor="let country of allCountries" [value]="country.id" [name]="country.name"
+                                        (click)="selectCountry(country)">
+                                        <img with="20px" height="20px" [src]="country.flag_url">
+                                        {{country.name}}
+                                    </mat-option>
+                                </mat-select>
+                                
+                            </div>   -->
+                            
+                                <div class="dropdown">
+                                    <div class="drop-btn"><i class="fa fa-user"></i></div>
+                                    <div class="dropdown-content">
+                                        <ul>
+                                            <li  *ngIf="!userData" >  <a  href="#" class="" routerLink="/auth/signin">  {{"landing.Sign In"|translate}}</a>
+                                            </li>
+                                            <li  *ngIf="userData" > <a routerLink="/admin/user-profile" class=" "   >{{"Profile"|translate}}</a></li>
+                                            <li *ngIf="userData"> <a  href="#"  (click)="logout()">   {{"landing.Exit account"|translate}}</a></li>
+                                        </ul> 
+                                
+                                    </div>
+                                </div> 
+                                    <a *ngIf="!userData" class="btn btn-primary"
+                                        (click)="ScrollIntoView('#myElement6')">
+                                        {{ "landing.Become a Broadcaster" | translate }}
+                                        <b>+</b>
+                                    </a>
+                                    <a *ngIf="userData" class="btn btn-primary"
+                                        routerLink="/auth/admin">
+                                        {{ "landing.leave hug" | translate }}
+                                        <b>+</b>
+                                    </a>  
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <router-outlet></router-outlet>  
+            <!-- <app-landing-page></app-landing-page> -->
+            <app-scroll-to-top></app-scroll-to-top>]
+            <section class="footer" id="myElement7">
+                <div class="container">
+                    <div class="social-wrapper">
+                        <div class="footer-logo">
+                            <img src="../../../../assets/images/logo.png">
+                        </div>
+                        <div class="social-title">{{ "landing.Follow us online"
+                            | translate }}</div>
+                        <div class="social">
+                            <a class="social-link"><img
+                                    src="../../../../assets/images/instagram.png"
+                                    alt="" /></a>
+                            <a class="social-link"><img
+                                    src="../../../../assets/images/telegram.png"
+                                    alt="" /></a>
+                            <a class="social-link"><img
+                                    src="../../../../assets/images/aparat.png"
+                                    alt="" /></a>
+                        </div>
+                    </div>
+                    <div class="row text-center">
+                        <div class="col-md-4">
+                            <div class="h4">با هاگ</div>
+                            <ul class="list-link">
+                                <li>
+                                    <a href="#">وبلاگ</a>
+                                </li>
+                                <li>
+                                    <a href="#">درباره ما</a>
+                                </li>
+                                <li>
+                                    <a href="#">تماس با ما</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="h4">با هاگ</div>
+                            <ul class="list-link">
+                                <li>
+                                    <a href="#">سوالات متداول</a>
+                                </li>
+                                <li>
+                                    <a href="#">حریم خصوصی</a>
+                                </li>
+                                <li>
+                                    <a href="#">قوانین و مقررات</a>
+                                </li>
+                                <li>
+                                    <a href="#">تعرفه ها</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="h4">نمادهای اعتماد</div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="namad enamad"><img
+                                            src="../../../../assets/images/pic5.jpg"
+                                            alt="" />
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="namad samandehi"><img
+                                            src="../../../../assets/images/pic4.jpg"
+                                            alt="" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <footer class="copyright">
+                    <div class="container">
+                        <div class="text-center">
+                            تمامی حقوق مادی و معنوی برای نگین وبلند محفوظ است
+                        </div>
+                    </div>
+                </footer>
+            </section>
+        </mat-drawer-content>
+    </mat-drawer-container>
+
+</div>
+
+
+<div *ngIf="direction == 'ltr'" dir="ltr" class="home-body">
+    <app-home-en></app-home-en>
+</div>
