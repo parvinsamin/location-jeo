@@ -1,59 +1,64 @@
 <div class="location-form-main">
     <header class="location-form-header">Share Location</header>
-    <form class="location-form">
+    <form class="location-form" #f="ngForm"
+        (ngSubmit)="f.form.valid && onSubmit()" novalidate>
 
         <div class="form-group-container first__row">
             <div class="form-group">
                 <label for="name" class="input-text">Location Name : </label>
-                <input type="text" id="name" placeholder="Name" />
+                <input type="text" placeholder="Name" name="name"
+                    [(ngModel)]="model.name" #name="ngModel" required
+                    [ngModelOptions]="{standalone: true}" />
             </div>
-            <span class="form-message">This is a required field.</span>
+            <span class="form-message"
+                *ngIf="f.submitted && name?.errors && name.errors['required']">
+                Name is required
+            </span>
         </div>
         <div class="form-group-container">
             <div class="form-group">
                 <label for="stacked-state">Location Type : </label>
-                <select id="stacked-state">
-                    <option>AL</option>
-                    <option>CA</option>
-                    <option>IL</option>
+                <select id="stacked-state" [(ngModel)]="model.type"
+                    #type="ngModel" required
+                    [ngModelOptions]="{standalone: true}">
+                    <option *ngFor="let n of locationTypes" [value]="n.name">{{n.name}}</option>
                 </select>
             </div>
-            <span class="form-message">This is a required field.</span>
+
+            <span class="form-message"
+                *ngIf="f.submitted && type?.errors && type.errors['required']">
+                Type is required
+            </span>
         </div>
         <div class="form-group-container">
             <div class="form-group">
-                <label>Location on map :
-                </label>
+                <label>Location on map : </label>
+                <l-map (setLocation)="setLocation($event)" [model]="model"></l-map>
             </div>
-
+            <span class="form-message"
+                *ngIf="f.submitted && model.location == null">
+                Type is required
+            </span>
         </div>
-        <div class="map-container" leaflet
-            [leafletOptions]="options"
-            (leafletMapReady)="onMapReady($event)"
-            (leafletMapZoomEnd)="onMapZoomEnd($event)"></div>
+
 
         <div class="form-group-container">
             <div class="form-group">
-                <label>Upload Logo :
-                </label>
-                <div class="image-upload-wrapper">
-                    <div class="image-upload-wrap">
-                        <img [src]="url" *ngIf="url" class="image">
-                        <input class="file-upload-input" #imgPicker
-                            type="file"
-                            (change)="selectFile($event)">
-                    </div>
-                    <button class="file-upload-btn" type="button"
-                        (click)="imgPicker.click()">Click Here</button>
-                </div>
+                <label>Upload Logo : </label>
+                <app-uploader (upload)="setFile($event)"></app-uploader>
             </div>
+            <span class="form-message"
+                *ngIf="f.submitted && model.file == null">
+                Image is required
+            </span>
+        </div>
+        <div class="form-group-container button_space" *ngIf="message">
+            <label class="message"> {{message}} </label>
         </div>
         <div class="form-group-container button_space">
-
-            <span> </span>
-            <button>Submit</button>
-            <span> </span>
-
+            <button class="btn btn-success" type="submit">Submit</button>
+            <button class="btn btn-cancel" type="button" (click)="resetForm()">Cancel</button>
+            <button class="btn btn-view" type="button" routerLink="/">View</button>
         </div>
     </form>
 </div>

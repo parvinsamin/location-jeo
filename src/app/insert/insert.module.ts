@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
 import { InsertRoutingModule } from './insert-routing.module';
 import { InsertComponent } from './insert/insert.component';
-import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { PartialsModule } from '../partials/partials.module';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -11,9 +10,9 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
     InsertComponent
   ],
   imports: [
-    CommonModule,
     InsertRoutingModule,
-    LeafletModule
+    FormsModule,
+    PartialsModule
   ]
 })
 export class InsertModule { }

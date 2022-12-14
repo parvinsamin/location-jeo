@@ -1,0 +1,15 @@
+ <div [ngClass]="{'map-container ':!full ,'map-container-full':full}"
+    leaflet
+    [leafletOptions]="options"
+    (leafletMapReady)="onMapReady($event)">
+</div>
+<!-- <div class="map-container-full" *ngIf="full"
+    leaflet
+    [leafletOptions]="options"
+    (leafletMapReady)="onMapReady($event)">
+</div>
+<div *ngIf="!full" class="map-container"
+    leaflet
+    [leafletOptions]="options"
+    (leafletMapReady)="onMapReady($event)">
+</div> -->

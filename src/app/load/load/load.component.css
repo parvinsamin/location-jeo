@@ -1,0 +1,17 @@
+ 
+.btn  {
+    height: 40px;
+    width: 100px;
+    border: none !important;
+    border-radius: 5px; 
+    font-size: 12px; 
+    cursor: pointer;
+    position: absolute;
+    top:50px;
+    right:50px;
+    z-index: 9999;
+}
+ .link-btn { 
+    background-color: #fff !important; 
+    color: #111 !important; 
+}

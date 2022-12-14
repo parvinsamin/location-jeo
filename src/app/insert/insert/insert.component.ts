@@ -1,70 +1,56 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { circle, featureGroup, latLng, Map, tileLayer } from 'leaflet';
-import * as L from 'leaflet';
+import { Component, OnInit } from '@angular/core';
+import { Location } from 'src/app/core/CoreModels';
+import { LocationForm } from 'src/app/core/Location';
+import { LocationService } from 'src/app/core/services/location.service';
+
 @Component({
   selector: 'app-insert',
   templateUrl: './insert.component.html',
   styleUrls: ['./insert.component.css']
 })
 export class InsertComponent implements OnInit {
-  url: any; //Angular 11, for stricter type 
-  map: any;
-  zoom: any;
-  msg = '';
-  @Output() map$: EventEmitter<Map> = new EventEmitter;
-  @Output() zoom$: EventEmitter<number> = new EventEmitter;
-  @Input() options: L.MapOptions = {
-    layers: [tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      opacity: 0.7,
-      maxZoom: 19,
-      detectRetina: true,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    })],
-    zoom: 1,
-    center: latLng(0, 0)
-  };
-
-  constructor() { }
+  locationTypes = [
+    { id: 1, name: 'Business' },
+    { id: 2, name: 'Home' },
+    { id: 3, name: 'School' },
+    { id: 4, name: 'Hospital' },
+    { id: 5, name: 'Park' }
+  ];
+  message = '';
+  finalData = [];
+  model = new LocationForm();
+  constructor(private locationService: LocationService) { }
 
   ngOnInit(): void {
-
   }
 
-  selectFile(event: any) { //Angular 11, for stricter type
-    if (!event.target.files[0] || event.target.files[0].length == 0) {
-      this.msg = 'You must select an image';
+  onSubmit() {
+    if (Object.entries(this.model).filter(x => x[1]).length < 4) {
       return;
     }
-    var mimeType = event.target.files[0].type;
-
-    if (mimeType.match(/image\/*/) == null) {
-      this.msg = "Only images are supported";
-      return;
-    }
-
-    var reader = new FileReader();
-    reader.readAsDataURL(event.target.files[0]);
-
-    reader.onload = (_event) => {
-      this.msg = "";
-      this.url = reader.result;
-    }
+    let locationData = [];
+    this.locationService.putLocation(this.model).subscribe({
+      next: (res: { message: string }) => {
+        setTimeout(() => {
+          this.message = res.message;
+        }, 1000)
+      },
+      error: (err) => {
+        // Catch Error.
+      }
+    })
+    this.resetForm()
   }
 
-  ngOnDestroy() {
-    this.map.clearAllEventListeners;
-    this.map.remove();
-  };
-
-  onMapReady(map: Map) {
-    this.map = map;
-    this.map$.emit(map);
-    this.zoom = map.getZoom();
-    this.zoom$.emit(this.zoom);
+  setLocation(e: Location) {
+    this.model.location = e;
   }
 
-  onMapZoomEnd(e: any) {
-    this.zoom = e.target.getZoom();
-    this.zoom$.emit(this.zoom);
+  setFile(e: any) {
+    this.model.file = e;
+  }
+
+  resetForm(): void {
+    // this.model = new LocationForm();
   }
 }

@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { PartialsModule } from '../partials/partials.module';
 
 import { LoadRoutingModule } from './load-routing.module';
 import { LoadComponent } from './load/load.component';
-import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 
 @NgModule({
@@ -11,9 +10,8 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
     LoadComponent
   ],
   imports: [
-    CommonModule,
     LoadRoutingModule,
-    LeafletModule
+    PartialsModule
   ]
 })
 export class LoadModule { }
